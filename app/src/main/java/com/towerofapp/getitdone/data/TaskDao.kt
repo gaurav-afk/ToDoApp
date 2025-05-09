@@ -1,4 +1,4 @@
-package com.towerofapp.getitdone
+package com.towerofapp.getitdone.data
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -14,6 +14,9 @@ interface TaskDao {
 
     @Query("SELECT * FROM task")
     fun getAllTask(): List<Task>
+
+    @Query("DELETE FROM task")
+    fun deleteAllTask(): Int
 
     @Update
     fun updateTask(task: Task)

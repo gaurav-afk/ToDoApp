@@ -1,4 +1,4 @@
-package com.towerofapp.getitdone
+package com.towerofapp.getitdone.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
