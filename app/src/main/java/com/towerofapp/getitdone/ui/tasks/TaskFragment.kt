@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.towerofapp.getitdone.data.GetItDoneDatabase
+import com.towerofapp.getitdone.data.Task
 import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
 import kotlin.concurrent.thread
 
-class TaskFragment : Fragment() {
+// Implements the adapter's listener to handle task updates.
+class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
 
     private lateinit var binding: FragmentsTasksBinding
     private val taskDao by lazy {
@@ -34,9 +36,17 @@ class TaskFragment : Fragment() {
         thread {
             val tasksList = taskDao.getAllTask()
             requireActivity().runOnUiThread {
-                binding.rvTask.adapter = TaskAdapter(tasksList)
+                binding.rvTask.adapter = TaskAdapter(tasksList, this)
             }
         }
     }
 
+    // Called by adapter when a task is checked/unchecked.
+    override fun onTaskUpdated(task: Task) {
+        thread {
+            taskDao.updateTask(task)
+            fetchAllTasks()
+        }
+
+    }
 }
