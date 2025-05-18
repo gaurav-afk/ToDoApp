@@ -12,20 +12,20 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.towerofapp.getitdone.data.Task
 import com.towerofapp.getitdone.databinding.ActivityMainBinding
 import com.towerofapp.getitdone.databinding.DialogAddTaskBinding
-import com.towerofapp.getitdone.ui.tasks.TaskFragments
+import com.towerofapp.getitdone.ui.tasks.TaskFragment
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: GetItDoneDatabase
     private val taskDao by lazy { database.getTaskDao() }
+    private val taskFragment: TaskFragment = TaskFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         binding.pager.adapter = PagerActivity(this)
         TabLayoutMediator(binding.tabs, binding.pager) { tab, position ->
             tab.text = "Tasks"
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 )
                 thread {
                     taskDao.createTask(task)
+                    taskFragment.fetchAllTasks()
                 }
                 dialog.dismiss()
             }
@@ -57,11 +58,8 @@ class MainActivity : AppCompatActivity() {
             dialog.setContentView(dialogBinding.root)  // passing root view obj to BottomSheetDialog to show
             dialog.show()
         }
-
-
-
-
         database = GetItDoneDatabase.createDatabase(context = this)
+
     }
 
 
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            return TaskFragments()
+            return taskFragment
         }
     }
 }

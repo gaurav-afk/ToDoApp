@@ -1,5 +1,6 @@
 package com.towerofapp.getitdone.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,5 +9,6 @@ data class Task(
     @PrimaryKey(autoGenerate = true) var taskId: Int = 0,
     var title: String,
     var description: String? = null,
-    var isStarring: Boolean = false
+    @ColumnInfo("is_starred") var isStarring: Boolean = false,
+    @ColumnInfo("is_complete") var isComplete: Boolean = false
 )

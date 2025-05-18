@@ -4,22 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:paddingRight="6dp"
+    android:paddingLeft="6dp">
+
+    <CheckBox
+        android:id="@+id/check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/check_box"
+        android:textSize="17sp"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Task title" />
 
     <TextView
         android:id="@+id/tv_detail"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/check_box"
+        android:layout_marginStart="6dp"
+        app:layout_constraintStart_toEndOf="@id/check_box"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintVertical_bias="1.0"
         tools:text="Task description" />
+
+
+    <CheckBox
+        android:id="@+id/toggle_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/icon_star_selector"
+        android:layout_marginEnd="4dp"
+        android:checked="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

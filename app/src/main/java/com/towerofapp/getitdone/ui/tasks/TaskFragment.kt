@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.towerofapp.getitdone.data.GetItDoneDatabase
-import com.towerofapp.getitdone.data.Task
-import com.towerofapp.getitdone.data.TaskDao
 import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
 import kotlin.concurrent.thread
 
-class TaskFragments : Fragment() {
+class TaskFragment : Fragment() {
 
     private lateinit var binding: FragmentsTasksBinding
     private val taskDao by lazy {
@@ -29,6 +27,10 @@ class TaskFragments : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fetchAllTasks()
+    }
+
+    fun fetchAllTasks() {
         thread {
             val tasksList = taskDao.getAllTask()
             requireActivity().runOnUiThread {
