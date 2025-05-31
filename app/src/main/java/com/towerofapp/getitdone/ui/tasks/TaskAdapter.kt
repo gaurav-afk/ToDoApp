@@ -12,8 +12,9 @@ import com.towerofapp.getitdone.databinding.ItemTaskBinding
 import kotlin.concurrent.thread
 
 
-class TaskAdapter(val tasks: List<Task>, private val listener: TaskUpdatedListener) :
+class TaskAdapter(private val listener: TaskUpdatedListener) :
     RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+    private var tasks: List<Task> = listOf()
 
     override fun getItemCount() = tasks.size
 
@@ -55,6 +56,11 @@ class TaskAdapter(val tasks: List<Task>, private val listener: TaskUpdatedListen
             }
 
         }
+    }
+
+    fun setTasks(tasks: List<Task>){
+        this.tasks = tasks
+        notifyDataSetChanged()
     }
 
     interface TaskUpdatedListener {  // Used to notify the fragment when a task is updated (e.g., checkbox toggled).

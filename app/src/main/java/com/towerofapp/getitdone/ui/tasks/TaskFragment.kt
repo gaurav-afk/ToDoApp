@@ -12,6 +12,7 @@ import kotlin.concurrent.thread
 
 // Implements the adapter's listener to handle task updates.
 class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
+    private val taskAdapter: TaskAdapter = TaskAdapter(this)
 
     private lateinit var binding: FragmentsTasksBinding
     private val taskDao by lazy {
@@ -29,14 +30,15 @@ class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvTask.adapter = taskAdapter
         fetchAllTasks()
     }
 
     fun fetchAllTasks() {
         thread {
-            val tasksList = taskDao.getAllTask()
+            val tasks = taskDao.getAllTask()
             requireActivity().runOnUiThread {
-                binding.rvTask.adapter = TaskAdapter(tasksList, this)
+                taskAdapter.setTasks(tasks)
             }
         }
     }
@@ -47,6 +49,6 @@ class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
             taskDao.updateTask(task)
             fetchAllTasks()
         }
-
     }
+
 }
