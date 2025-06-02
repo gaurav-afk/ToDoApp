@@ -42,23 +42,16 @@ class TaskAdapter(private val listener: TaskUpdatedListener) :
             binding.tvDetail.text = task.description
 
             // Update task based on checkbox state and notify the fragment.
-            binding.checkBox.addOnCheckedStateChangedListener { _, state ->
-                val updatedTask = when (state) {
-                    MaterialCheckBox.STATE_CHECKED -> task.copy(isComplete = true)
-                    else -> task.copy(isComplete = false)
-                }
+            binding.checkBox.setOnClickListener{
+                val updatedTask = task.copy(isComplete = binding.checkBox.isChecked)
                 listener.onTaskUpdated(updatedTask)
             }
-
-            binding.toggleStar.addOnCheckedStateChangedListener { _, state ->
-                val updatedTask = when (state) {
-                    MaterialCheckBox.STATE_CHECKED -> task.copy(isStarring = true)
-                    else -> task.copy(isStarring = false)
-                }
+            binding.toggleStar.setOnClickListener{
+                val updatedTask = task.copy(isStarring = binding.toggleStar.isChecked)
                 listener.onTaskUpdated(updatedTask)
             }
-
         }
+
     }
 
     fun setTasks(tasks: List<Task>){
