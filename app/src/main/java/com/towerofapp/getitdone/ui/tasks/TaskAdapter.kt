@@ -34,6 +34,9 @@ class TaskAdapter(private val listener: TaskUpdatedListener) :
             if (task.isComplete){
                 binding.tvTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 binding.tvDetail.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            }else {
+                binding.tvTitle.paintFlags = 0
+                binding.tvDetail.paintFlags = 0
             }
             binding.tvTitle.text = task.title
             binding.tvDetail.text = task.description
