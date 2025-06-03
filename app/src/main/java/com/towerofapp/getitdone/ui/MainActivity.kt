@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,36 +18,37 @@ import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var database: GetItDoneDatabase
+    private val database: GetItDoneDatabase by lazy { GetItDoneDatabase.getDatabase(this) }
     private val taskDao by lazy { database.getTaskDao() }
     private val taskFragment: TaskFragment = TaskFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater).apply {
+            pager.adapter = PagerActivity(this@MainActivity)
+            TabLayoutMediator(tabs, pager) { tab, _ ->
+                tab.text = "Tasks"
+            }.attach()
+            setContentView(root)
+            fab.setOnClickListener { showAddTaskDialog() }
+        }
+    }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.pager.adapter = PagerActivity(this)
-        TabLayoutMediator(binding.tabs, binding.pager) { tab, position ->
-            tab.text = "Tasks"
-        }.attach()
+    private fun showAddTaskDialog() {
+        DialogAddTaskBinding.inflate(layoutInflater).apply {
+            val dialog = BottomSheetDialog(this@MainActivity) // returns BottomSheetDialog obj
+            dialog.setContentView(root)
 
-
-        binding.fab.setOnClickListener {
-            val dialogBinding =
-                DialogAddTaskBinding.inflate(layoutInflater)  // Inflate the dialog layout and store the view object in dialogBinding
-            val dialog = BottomSheetDialog(this) // returns BottomSheetDialog obj
-
-            dialogBinding.btnShowDetails.setOnClickListener {  // Toggle visibility of the description on button press
-                dialogBinding.editTextTaskDescription.visibility =
-                    if (dialogBinding.editTextTaskDescription.visibility == View.VISIBLE) View.GONE
+            btnShowDetails.setOnClickListener {  // Toggle visibility of the description on button press
+                editTextTaskDescription.visibility =
+                    if (editTextTaskDescription.visibility == View.VISIBLE) View.GONE
                     else View.VISIBLE
             }
 
-            dialogBinding.btnSave.setOnClickListener {
+            btnSave.setOnClickListener {
                 val task = Task(
-                    title = dialogBinding.editTextTaskTitle.text.toString(),
-                    description = dialogBinding.editTextTaskDescription.text.toString()
+                    title = editTextTaskTitle.text.toString(),
+                    description = editTextTaskDescription.text.toString()
                 )
                 thread {
                     taskDao.createTask(task)
@@ -55,11 +57,8 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
 
-            dialog.setContentView(dialogBinding.root)  // passing root view obj to BottomSheetDialog to show
             dialog.show()
         }
-        database = GetItDoneDatabase.createDatabase(context = this)
-
     }
 
 

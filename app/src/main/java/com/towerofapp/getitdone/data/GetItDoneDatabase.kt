@@ -1,7 +1,6 @@
 package com.towerofapp.getitdone.data
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -16,7 +15,7 @@ abstract class GetItDoneDatabase : RoomDatabase() {
         @Volatile
         private var DATABASE_INSTANCE: GetItDoneDatabase? = null
 
-        fun createDatabase(context: Context): GetItDoneDatabase {  // returns GetItDoneDatabaseImpl
+        fun getDatabase(context: Context): GetItDoneDatabase {  // returns GetItDoneDatabaseImpl
             return DATABASE_INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context,

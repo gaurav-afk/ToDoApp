@@ -29,33 +29,36 @@ class TaskAdapter(private val listener: TaskUpdatedListener) :
 
     inner class ViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(task: Task) {
-            binding.checkBox.isChecked = task.isComplete
-            binding.toggleStar.isChecked = task.isStarring
-            if (task.isComplete){
-                binding.tvTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                binding.tvDetail.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            }else {
-                binding.tvTitle.paintFlags = 0
-                binding.tvDetail.paintFlags = 0
-            }
-            binding.tvTitle.text = task.title
-            binding.tvDetail.text = task.description
 
-            // Update task based on checkbox state and notify the fragment.
-            binding.checkBox.setOnClickListener{
-                val updatedTask = task.copy(isComplete = binding.checkBox.isChecked)
-                listener.onTaskUpdated(updatedTask)
-            }
-            binding.toggleStar.setOnClickListener{
-                val updatedTask = task.copy(isStarring = binding.toggleStar.isChecked)
-                listener.onTaskUpdated(updatedTask)
+            binding.apply {
+                checkBox.isChecked = task.isComplete
+                toggleStar.isChecked = task.isStarring
+                if (task.isComplete){
+                    tvTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvDetail.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }else {
+                    tvTitle.paintFlags = 0
+                    tvDetail.paintFlags = 0
+                }
+                tvTitle.text = task.title
+                tvDetail.text = task.description
+
+                // Update task based on checkbox state and notify the fragment.
+                checkBox.setOnClickListener{
+                    val updatedTask = task.copy(isComplete = checkBox.isChecked)
+                    listener.onTaskUpdated(updatedTask)
+                }
+                toggleStar.setOnClickListener{
+                    val updatedTask = task.copy(isStarring = toggleStar.isChecked)
+                    listener.onTaskUpdated(updatedTask)
+                }
             }
         }
 
     }
 
     fun setTasks(tasks: List<Task>){
-        this.tasks = tasks.sortedBy { it.isComplete }
+        this.tasks = tasks.sortedBy { task -> task.isComplete }
         notifyDataSetChanged()
     }
 

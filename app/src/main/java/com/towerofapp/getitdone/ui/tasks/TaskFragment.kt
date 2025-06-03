@@ -16,7 +16,7 @@ class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
 
     private lateinit var binding: FragmentsTasksBinding
     private val taskDao by lazy {
-        GetItDoneDatabase.createDatabase(requireContext()).getTaskDao()
+        GetItDoneDatabase.getDatabase(requireContext()).getTaskDao()
     }
 
     override fun onCreateView(
