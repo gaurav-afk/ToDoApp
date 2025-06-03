@@ -55,7 +55,7 @@ class TaskAdapter(private val listener: TaskUpdatedListener) :
     }
 
     fun setTasks(tasks: List<Task>){
-        this.tasks = tasks
+        this.tasks = tasks.sortedBy { it.isComplete }
         notifyDataSetChanged()
     }
 
