@@ -11,7 +11,7 @@ import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
 import kotlin.concurrent.thread
 
 // Implements the adapter's listener to handle task updates.
-class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
+class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
     private val taskAdapter: TaskAdapter = TaskAdapter(this)
 
     private lateinit var binding: FragmentsTasksBinding
@@ -50,5 +50,13 @@ class TaskFragment : Fragment(), TaskAdapter.TaskUpdatedListener {
             fetchAllTasks()
         }
     }
+
+    override fun onTaskDeleted(task: Task) {
+        thread {
+            taskDao.deleteTask(task)
+            fetchAllTasks()
+        }
+    }
+
 
 }
