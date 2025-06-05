@@ -2,8 +2,11 @@ package com.towerofapp.getitdone.ui
 
 import com.towerofapp.getitdone.data.GetItDoneDatabase
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.PagerAdapter
@@ -38,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         DialogAddTaskBinding.inflate(layoutInflater).apply {
             val dialog = BottomSheetDialog(this@MainActivity) // returns BottomSheetDialog obj
             dialog.setContentView(root)
+
+            btnSave.isEnabled = false
+
+            editTextTaskTitle.addTextChangedListener {  input-> btnSave.isEnabled = !input.isNullOrEmpty() }
 
             btnShowDetails.setOnClickListener {  // Toggle visibility of the description on button press
                 editTextTaskDescription.visibility =
