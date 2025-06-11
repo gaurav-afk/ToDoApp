@@ -14,4 +14,24 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun subtraction_iscorrect(){
+        val result = 9-3
+        assertEquals(6,result)
+    }
+
+    @Test
+    fun greeter_greetsPersonCorrectly(){
+        val greeter = Greeter()
+        val result = greeter.greet("Vin")
+
+        assertEquals("Hello, Vin!", result)
+    }
+}
+
+class Greeter {
+    fun greet(name: String) : String{
+        return "Hello, $name!"
+    }
 }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.towerofapp.getitdone.GetItDoneApplication.Companion.taskDao
 import com.towerofapp.getitdone.data.GetItDoneDatabase
 import com.towerofapp.getitdone.data.Task
 import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
@@ -13,11 +15,8 @@ import kotlin.concurrent.thread
 // Implements the adapter's listener to handle task updates.
 class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
     private val taskAdapter: TaskAdapter = TaskAdapter(this)
-
+    private val viewModel: TasksViewModel by viewModels()
     private lateinit var binding: FragmentsTasksBinding
-    private val taskDao by lazy {
-        GetItDoneDatabase.getDatabase(requireContext()).getTaskDao()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +34,9 @@ class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
     }
 
     fun fetchAllTasks() {
-        thread {
-            val tasks = taskDao.getAllTask()
+        viewModel.fetchTask { tasks ->
             requireActivity().runOnUiThread {
-                taskAdapter.setTasks(tasks)
+                taskAdapter.setTasks(tasks = tasks)
             }
         }
     }
