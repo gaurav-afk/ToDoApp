@@ -1,4 +1,4 @@
-package com.towerofapp.getitdone.data
+package com.towerofapp.getitdone.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

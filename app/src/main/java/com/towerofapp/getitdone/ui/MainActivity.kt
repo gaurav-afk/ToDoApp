@@ -1,27 +1,19 @@
 package com.towerofapp.getitdone.ui
 
-import com.towerofapp.getitdone.data.GetItDoneDatabase
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
-import com.towerofapp.getitdone.GetItDoneApplication.Companion.database
-import com.towerofapp.getitdone.GetItDoneApplication.Companion.taskDao
-import com.towerofapp.getitdone.data.Task
 import com.towerofapp.getitdone.databinding.ActivityMainBinding
 import com.towerofapp.getitdone.databinding.DialogAddTaskBinding
 import com.towerofapp.getitdone.ui.tasks.TaskFragment
 import com.towerofapp.getitdone.util.InputValidator
-import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

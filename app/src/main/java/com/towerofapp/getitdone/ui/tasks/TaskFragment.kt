@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.towerofapp.getitdone.GetItDoneApplication.Companion.taskDao
-import com.towerofapp.getitdone.data.GetItDoneDatabase
-import com.towerofapp.getitdone.data.Task
+import androidx.lifecycle.lifecycleScope
+import com.towerofapp.getitdone.data.model.Task
 import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
-import kotlin.concurrent.thread
+import kotlinx.coroutines.launch
 
 // Implements the adapter's listener to handle task updates.
 class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
@@ -34,27 +33,24 @@ class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
     }
 
     fun fetchAllTasks() {
-        viewModel.fetchTask { tasks ->
-            requireActivity().runOnUiThread {
-                taskAdapter.setTasks(tasks = tasks)
-            }
+        lifecycleScope.launch {
+            val tasks: List<Task> = viewModel.fetchTask()
+            taskAdapter.setTasks(tasks = tasks)
         }
     }
 
     // Called by adapter when a task is checked/unchecked.
     override fun onTaskUpdated(task: Task) {
-        thread {
-            taskDao.updateTask(task)
+        viewModel.updateTask(task)
+        lifecycleScope.launch {
             fetchAllTasks()
         }
     }
 
     override fun onTaskDeleted(task: Task) {
-        thread {
-            taskDao.deleteTask(task)
+        viewModel.deleteTask(task)
+        lifecycleScope.launch {
             fetchAllTasks()
         }
     }
-
-
 }

@@ -1,19 +1,19 @@
 package com.towerofapp.getitdone
 
 import android.app.Application
-import com.towerofapp.getitdone.data.GetItDoneDatabase
-import com.towerofapp.getitdone.data.TaskDao
+import com.towerofapp.getitdone.data.TaskRepository
+import com.towerofapp.getitdone.data.database.GetItDoneDatabase
 
 class GetItDoneApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        database = GetItDoneDatabase.getDatabase(this)
-        taskDao = database.getTaskDao()
+        val database = GetItDoneDatabase.getDatabase(this)
+        val taskDao = database.getTaskDao()
+        taskRepository = TaskRepository(taskDao)
     }
 
     companion object {
-        lateinit var database: GetItDoneDatabase
-        lateinit var taskDao: TaskDao
+        lateinit var taskRepository: TaskRepository
     }
 }

@@ -1,20 +1,21 @@
 package com.towerofapp.getitdone.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.towerofapp.getitdone.GetItDoneApplication
-import com.towerofapp.getitdone.data.Task
-import kotlin.concurrent.thread
+import com.towerofapp.getitdone.data.model.Task
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    private val taskDao = GetItDoneApplication.taskDao
+    private val repository = GetItDoneApplication.taskRepository
 
     fun createTask(title: String, description: String?){
         val task = Task(
             title = title,
             description = description
         )
-        thread {
-            taskDao.createTask(task)
+        viewModelScope.launch {
+            repository.createTask(task)
         }
     }
 }

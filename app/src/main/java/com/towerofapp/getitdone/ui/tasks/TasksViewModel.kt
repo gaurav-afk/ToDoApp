@@ -1,32 +1,30 @@
 package com.towerofapp.getitdone.ui.tasks
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.towerofapp.getitdone.GetItDoneApplication
-import com.towerofapp.getitdone.GetItDoneApplication.Companion
-import com.towerofapp.getitdone.data.GetItDoneDatabase
-import com.towerofapp.getitdone.data.Task
-import kotlin.concurrent.thread
+import com.towerofapp.getitdone.data.TaskRepository
+import com.towerofapp.getitdone.data.model.Task
+import kotlinx.coroutines.launch
 
 class TasksViewModel : ViewModel() {
 
-    private val taskDao = GetItDoneApplication.taskDao
+    private val repository: TaskRepository = GetItDoneApplication.taskRepository
 
-    fun fetchTask(callback: (List<Task>) -> Unit){
-        thread {
-            val tasks = Companion.taskDao.getAllTask()
-            callback(tasks)
+    suspend fun fetchTask(): List<Task>{
+        val tasks = repository.getAllTask()
+        return tasks
+    }
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            repository.updateTask(task)
         }
     }
 
-    fun updateTask(task: Task){
-        thread {
-            taskDao.updateTask(task)
-        }
-    }
-
-    fun deleteTask(task: Task){
-        thread {
-           taskDao.deleteTask(task)
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
         }
     }
 }

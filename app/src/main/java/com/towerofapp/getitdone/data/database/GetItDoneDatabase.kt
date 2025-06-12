@@ -1,9 +1,11 @@
-package com.towerofapp.getitdone.data
+package com.towerofapp.getitdone.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.towerofapp.getitdone.data.model.Task
+import com.towerofapp.getitdone.data.model.TaskDao
 
 
 @Database(entities = [Task::class], version = 2)

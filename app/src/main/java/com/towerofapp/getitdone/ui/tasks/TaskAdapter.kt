@@ -1,23 +1,17 @@
 package com.towerofapp.getitdone.ui.tasks
 
 import android.graphics.Paint
-import android.graphics.PaintFlagsDrawFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Visibility
-import com.google.android.material.checkbox.MaterialCheckBox
-import com.towerofapp.getitdone.data.Task
-import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
+import com.towerofapp.getitdone.data.model.Task
 import com.towerofapp.getitdone.databinding.ItemTaskBinding
-import kotlin.concurrent.thread
 
 
 class TaskAdapter(private val listener: TaskItemClickListener) :
     RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
     private var tasks: List<Task> = listOf()
-
     override fun getItemCount() = tasks.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
