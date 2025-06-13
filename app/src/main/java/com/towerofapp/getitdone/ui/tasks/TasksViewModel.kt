@@ -11,14 +11,15 @@ class TasksViewModel : ViewModel() {
 
     private val repository: TaskRepository = GetItDoneApplication.taskRepository
 
-    suspend fun fetchTask(): List<Task>{
+    suspend fun fetchAllTask(): List<Task>{
         val tasks = repository.getAllTask()
         return tasks
     }
 
-    fun updateTask(task: Task) {
+    fun updateTask(task: Task, onCompleteUpdate:() -> Unit) {
         viewModelScope.launch {
             repository.updateTask(task)
+            onCompleteUpdate()
         }
     }
 

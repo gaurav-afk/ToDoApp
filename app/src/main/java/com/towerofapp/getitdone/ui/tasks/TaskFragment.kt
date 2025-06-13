@@ -34,23 +34,21 @@ class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
 
     fun fetchAllTasks() {
         lifecycleScope.launch {
-            val tasks: List<Task> = viewModel.fetchTask()
+            val tasks: List<Task> = viewModel.fetchAllTask()
             taskAdapter.setTasks(tasks = tasks)
         }
     }
 
     // Called by adapter when a task is checked/unchecked.
     override fun onTaskUpdated(task: Task) {
-        viewModel.updateTask(task)
-        lifecycleScope.launch {
+        viewModel.updateTask(task){
             fetchAllTasks()
         }
+
     }
 
     override fun onTaskDeleted(task: Task) {
         viewModel.deleteTask(task)
-        lifecycleScope.launch {
-            fetchAllTasks()
-        }
+        fetchAllTasks()
     }
 }
