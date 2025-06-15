@@ -2,6 +2,7 @@ package com.towerofapp.getitdone.data
 
 import com.towerofapp.getitdone.data.model.Task
 import com.towerofapp.getitdone.data.model.TaskDao
+import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDao) {
 
@@ -9,7 +10,7 @@ class TaskRepository(private val taskDao: TaskDao) {
         taskDao.createTask(task)
     }
 
-    suspend fun getAllTask(): List<Task>{
+    fun getAllTask(): Flow<List<Task>> {
         return taskDao.getAllTask()
     }
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.towerofapp.getitdone.data.model.Task
 import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 // Implements the adapter's listener to handle task updates.
@@ -32,23 +33,22 @@ class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
         fetchAllTasks()
     }
 
+    // Collects task list from ViewModel and updates the adapter in real-time
+    // whenever the Room database changes (insert/update/delete).
     fun fetchAllTasks() {
         lifecycleScope.launch {
-            val tasks: List<Task> = viewModel.fetchAllTask()
-            taskAdapter.setTasks(tasks = tasks)
+            viewModel.fetchAllTask().collectLatest{tasks ->
+                taskAdapter.setTasks(tasks)
+            }
         }
     }
 
     // Called by adapter when a task is checked/unchecked.
     override fun onTaskUpdated(task: Task) {
-        viewModel.updateTask(task){
-            fetchAllTasks()
-        }
-
+        viewModel.updateTask(task)
     }
 
     override fun onTaskDeleted(task: Task) {
         viewModel.deleteTask(task)
-        fetchAllTasks()
     }
 }

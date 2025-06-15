@@ -18,7 +18,6 @@ import com.towerofapp.getitdone.util.InputValidator
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val taskFragment: TaskFragment = TaskFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +53,6 @@ class MainActivity : AppCompatActivity() {
                         title = editTextTaskTitle.text.toString(),
                         description = editTextTaskDescription.text.toString())
                 dialog.dismiss()
-                taskFragment.fetchAllTasks()
             }
 
             dialog.show()
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun createFragment(position: Int): Fragment {
-            return taskFragment
+            return TaskFragment()
         }
     }
 }

@@ -5,21 +5,21 @@ import androidx.lifecycle.viewModelScope
 import com.towerofapp.getitdone.GetItDoneApplication
 import com.towerofapp.getitdone.data.TaskRepository
 import com.towerofapp.getitdone.data.model.Task
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class TasksViewModel : ViewModel() {
 
     private val repository: TaskRepository = GetItDoneApplication.taskRepository
 
-    suspend fun fetchAllTask(): List<Task>{
+    fun fetchAllTask(): Flow<List<Task>> {
         val tasks = repository.getAllTask()
         return tasks
     }
 
-    fun updateTask(task: Task, onCompleteUpdate:() -> Unit) {
+    fun updateTask(task: Task) {
         viewModelScope.launch {
             repository.updateTask(task)
-            onCompleteUpdate()
         }
     }
 
