@@ -12,11 +12,11 @@ import com.towerofapp.getitdone.databinding.FragmentsTasksBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-// Implements the adapter's listener to handle task updates.
-class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
+class StarredTaskFragment: Fragment(), TaskAdapter.TaskItemClickListener {
+
     private val taskAdapter: TaskAdapter = TaskAdapter(this)
-    private val viewModel: TasksViewModel by viewModels()
     private lateinit var binding: FragmentsTasksBinding
+    private val viewModel: StarredTasksViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,20 +30,19 @@ class TaskFragment : Fragment(), TaskAdapter.TaskItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvTask.adapter = taskAdapter
-        fetchAllTasks()
+        fetchStarredTask()
     }
 
     // Collects task list from ViewModel and updates the adapter in real-time
     // whenever the Room database changes (insert/update/delete).
-    fun fetchAllTasks() {
+    fun fetchStarredTask() {
         lifecycleScope.launch {
-            viewModel.fetchAllTask().collectLatest { tasks ->
+            viewModel.fetchStarredTask().collectLatest { tasks ->
                 taskAdapter.setTasks(tasks)
             }
         }
     }
 
-    // Called by adapter when a task is checked/unchecked.
     override fun onTaskUpdated(task: Task) {
         viewModel.updateTask(task)
     }
