@@ -1,10 +1,11 @@
-package com.towerofapp.getitdone.data.model
+package com.towerofapp.getitdone.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.towerofapp.getitdone.data.model.Task
 import kotlinx.coroutines.flow.Flow
 
 @Dao

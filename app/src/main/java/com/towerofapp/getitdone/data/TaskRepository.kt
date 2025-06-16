@@ -1,7 +1,7 @@
 package com.towerofapp.getitdone.data
 
 import com.towerofapp.getitdone.data.model.Task
-import com.towerofapp.getitdone.data.model.TaskDao
+import com.towerofapp.getitdone.data.database.TaskDao
 import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDao) {

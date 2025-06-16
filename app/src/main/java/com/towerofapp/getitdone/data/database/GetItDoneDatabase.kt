@@ -5,13 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.towerofapp.getitdone.data.model.Task
-import com.towerofapp.getitdone.data.model.TaskDao
+import com.towerofapp.getitdone.data.model.TaskList
 
 
-@Database(entities = [Task::class], version = 2)
+@Database(entities = [Task::class, TaskList::class], version = 2)
 abstract class GetItDoneDatabase : RoomDatabase() {
 
     abstract fun getTaskDao(): TaskDao  // after auto-generating GetItDoneDatabaseImpl it's auto-generated TaskDao_Impl is used
+    abstract fun getTaskListDao(): TaskListDao
 
     companion object {
         @Volatile
