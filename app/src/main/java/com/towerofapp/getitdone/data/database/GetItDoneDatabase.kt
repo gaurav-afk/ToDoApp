@@ -11,7 +11,7 @@ import com.towerofapp.getitdone.data.model.Task
 import com.towerofapp.getitdone.data.model.TaskList
 
 
-@Database(entities = [Task::class, TaskList::class], version = 3)
+@Database(entities = [Task::class, TaskList::class], version = 4)
 abstract class GetItDoneDatabase : RoomDatabase() {
 
     abstract fun getTaskDao(): TaskDao  // after auto-generating GetItDoneDatabaseImpl it's auto-generated TaskDao_Impl is used
@@ -26,7 +26,7 @@ abstract class GetItDoneDatabase : RoomDatabase() {
                 db.execSQL("""CREATE TABLE IF NOT EXISTS 'task_list'
                     (
                         'task_list_id' INTEGER PRIMARY KEY AUTOINCREMENT NULL,
-                        'name' TEXT NOT NULL
+                        'name' TEXT NOT NULL 
                     )""".trimIndent())
             }
         }
@@ -38,6 +38,7 @@ abstract class GetItDoneDatabase : RoomDatabase() {
                     GetItDoneDatabase::class.java,
                     "get-it-done-database"
                 ).addMigrations(MIGRATION_2_TO_3)
+                    .fallbackToDestructiveMigration()
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SQLiteConnection) {
                             super.onCreate(db)
