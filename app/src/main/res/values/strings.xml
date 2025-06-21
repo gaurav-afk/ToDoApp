@@ -8,4 +8,7 @@
     <string name="dialog_add_task_star_button">Star Task</string>
     <string name="dialog_add_task_save_btn">save</string>
     <string name="add_new_list">Add new list</string>
+    <string name="add_new_list_dialog_title">Add new list</string>
+    <string name="create_button_text">Create</string>
+    <string name="cancel_button_text">Cancel</string>
 </resources>

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.towerofapp.getitdone.R
 import com.towerofapp.getitdone.data.model.TaskList
@@ -63,7 +64,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddTaskListDialog() {
-        TODO("Not yet implemented")
+        val dialogBinding = DialogAddTaskBinding.inflate(layoutInflater)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(getString(R.string.add_new_list_dialog_title))
+            .setView(dialogBinding.root)
+            .setPositiveButton(getString(R.string.create_button_text)){dialog,_ ->
+                // save new list
+                viewModel.addNewTaskList(dialogBinding.editTextTaskTitle.text.toString())
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel_button_text)){dialog,_ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showAddTaskDialog() {

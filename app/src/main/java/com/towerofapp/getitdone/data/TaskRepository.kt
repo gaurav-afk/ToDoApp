@@ -32,5 +32,10 @@ class TaskRepository(private val taskDao: TaskDao, private val taskListDao: Task
         return taskListDao.getAllTaskList()
     }
 
+    suspend fun createTaskList(listName: String) {
+        val taskList = TaskList(id = 0, name = listName)
+        taskListDao.createTaskList(taskList)
+    }
+
 
 }
